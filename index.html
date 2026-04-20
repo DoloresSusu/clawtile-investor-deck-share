@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawTile Investor Deck v6</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================================
+       CSS CUSTOM PROPERTIES (THEME)
+       =========================================== */
+    :root {
+      --bg-void: #0d1016;
+      --bg-panel: #151b24;
+      --bg-soft: #f2ecdf;
+      --bg-paper: #fbf7ef;
+      --text-ink: #12161f;
+      --text-muted: #627083;
+      --text-light: #eff2f6;
+      --line: rgba(20, 24, 31, 0.12);
+      --line-light: rgba(255, 255, 255, 0.12);
+      --accent: #d6613c;
+      --accent-soft: rgba(214, 97, 60, 0.16);
+      --accent-alt: #7fb59b;
+      --accent-glow: rgba(214, 97, 60, 0.28);
+      --gold: #b98d4a;
+      --shadow: 0 28px 80px rgba(5, 9, 18, 0.18);
+      --font-display: "Noto Serif SC", serif;
+      --font-body: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 0.6s;
+      --title-size: clamp(1.5rem, 5vw, 4rem);
+      --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+      --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+      --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+      --small-size: clamp(0.65rem, 1vw, 0.875rem);
+      --slide-padding: clamp(1rem, 4vw, 4rem);
+      --content-gap: clamp(0.5rem, 2vw, 2rem);
+      --element-gap: clamp(0.25rem, 1vw, 1rem);
+    }
+
+    /* ===========================================
+       BASE RESET
+       =========================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===========================================
+       VIEWPORT FITTING: MANDATORY BASE STYLES
+       Include this ENTIRE file in every presentation.
+       These styles ensure slides fit exactly in the viewport.
+       =========================================== */
+
+    /* 1. Lock html/body to viewport */
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    /* 2. Each slide = exact viewport height */
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh; /* Dynamic viewport height for mobile browsers */
+      overflow: hidden; /* CRITICAL: Prevent ANY overflow */
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 3. Content container with flex for centering */
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-height: 100%;
+      overflow: hidden; /* Double-protection against overflow */
+      padding: var(--slide-padding);
+    }
+
+    /* 4. ALL typography uses clamp() for responsive scaling */
+    :root {
+      /* Titles scale from mobile to desktop */
+      --title-size: clamp(1.5rem, 5vw, 4rem);
+      --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+      --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+
+      /* Body text */
+      --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+      --small-size: clamp(0.65rem, 1vw, 0.875rem);
+
+      /* Spacing scales with viewport */
+      --slide-padding: clamp(1rem, 4vw, 4rem);
+      --content-gap: clamp(0.5rem, 2vw, 2rem);
+      --element-gap: clamp(0.25rem, 1vw, 1rem);
+    }
+
+    /* 5. Cards/containers use viewport-relative max sizes */
+    .card, .container, .content-box {
+      max-width: min(90vw, 1000px);
+      max-height: min(80vh, 700px);
+    }
+
+    /* 6. Lists auto-scale with viewport */
+    .feature-list, .bullet-list {
+      gap: clamp(0.4rem, 1vh, 1rem);
+    }
+
+    .feature-list li, .bullet-list li {
+      font-size: var(--body-size);
+      line-height: 1.4;
+    }
+
+    /* 7. Grids adapt to available space */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+      gap: clamp(0.5rem, 1.5vw, 1rem);
+    }
+
+    /* 8. Images constrained to viewport */
+    img, .image-container {
+      max-width: 100%;
+      max-height: min(50vh, 400px);
+      object-fit: contain;
+    }
+
+    /* ===========================================
+       RESPONSIVE BREAKPOINTS
+       Aggressive scaling for smaller viewports
+       =========================================== */
+
+    /* Short viewports (< 700px height) */
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(0.75rem, 3vw, 2rem);
+        --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+        --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+        --h2-size: clamp(1rem, 3vw, 1.75rem);
+      }
+    }
+
+    /* Very short viewports (< 600px height) */
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+        --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+        --title-size: clamp(1.1rem, 4vw, 2rem);
+        --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+      }
+
+      /* Hide non-essential elements */
+      .nav-dots, .keyboard-hint, .decorative {
+        display: none;
+      }
+    }
+
+    /* Extremely short (landscape phones, < 500px height) */
+    @media (max-height: 500px) {
+      :root {
+        --slide-padding: clamp(0.4rem, 2vw, 1rem);
+        --title-size: clamp(1rem, 3.5vw, 1.5rem);
+        --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+        --body-size: clamp(0.65rem, 1vw, 0.85rem);
+      }
+    }
+
+    /* Narrow viewports (< 600px width) */
+    @media (max-width: 600px) {
+      :root {
+        --title-size: clamp(1.25rem, 7vw, 2.5rem);
+      }
+
+      /* Stack grids vertically */
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===========================================
+       REDUCED MOTION
+       Respect user preferences
+       =========================================== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ===========================================
+       DOCUMENT / DECK LAYOUT
+       =========================================== */
+    body {
+      font-family: var(--font-body);
+      background:
+        radial-gradient(circle at top left, rgba(127, 181, 155, 0.18), transparent 26%),
+        radial-gradient(circle at top right, rgba(214, 97, 60, 0.18), transparent 30%),
+        var(--bg-void);
+      color: var(--text-light);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.55s var(--ease-out-expo);
+      background: var(--bg-paper);
+      color: var(--text-ink);
+    }
+
+    .slide.dark {
+      background:
+        radial-gradient(circle at top right, rgba(214, 97, 60, 0.18), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(127, 181, 155, 0.16), transparent 32%),
+        linear-gradient(180deg, #11151d 0%, #0c1017 100%);
+      color: var(--text-light);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .slide-shell {
+      width: 100%;
+      max-width: 1240px;
+      height: 100%;
+      margin: 0 auto;
+      padding: clamp(1.3rem, 3vw, 2.7rem) clamp(1.2rem, 4vw, 3.1rem) clamp(1.2rem, 3vw, 2.4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(0.8rem, 1.8vh, 1.2rem);
+    }
+
+    .slide-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: clamp(0.72rem, 0.95vw, 0.88rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .dark .slide-head {
+      color: rgba(239, 242, 246, 0.52);
+    }
+
+    .slide:not(:first-of-type) .slide-head {
+      justify-content: flex-start;
+      gap: 0.75rem;
+      font-size: clamp(0.92rem, 1.22vw, 1.12rem);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #445062;
+    }
+
+    .slide:not(:first-of-type).dark .slide-head {
+      color: rgba(239, 242, 246, 0.72);
+    }
+
+    .slide:not(:first-of-type) .slide-head span:first-child {
+      font-size: 0.88em;
+      letter-spacing: 0.18em;
+    }
+
+    .slide:not(:first-of-type) .slide-head span:last-child {
+      font-size: 1.06em;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: none;
+    }
+
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(0.8rem, 1.6vh, 1.4rem);
+    }
+
+    .slide-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-left: 2.6rem;
+      font-size: clamp(0.7rem, 0.92vw, 0.86rem);
+      color: var(--text-muted);
+    }
+
+    .dark .slide-foot {
+      color: rgba(239, 242, 246, 0.56);
+    }
+
+    /* ===========================================
+       TYPOGRAPHY
+       =========================================== */
+    .eyebrow {
+      font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 5.1vw, 5rem);
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .headline .soft {
+      opacity: 0.74;
+      font-weight: 700;
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 3rem);
+      line-height: 1.18;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: clamp(0.95rem, 1.35vw, 1.2rem);
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 56rem;
+    }
+
+    .dark .subtitle {
+      color: rgba(239, 242, 246, 0.72);
+    }
+
+    .lede {
+      font-size: clamp(1rem, 1.45vw, 1.35rem);
+      line-height: 1.7;
+      max-width: 54rem;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.2vw, 3.6rem);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    /* ===========================================
+       ANIMATIONS
+       =========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(10px);
+      transition:
+        opacity var(--duration-normal) var(--ease-out-expo),
+        transform var(--duration-normal) var(--ease-out-expo),
+        filter var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .reveal:nth-child(1) { transition-delay: 0.08s; }
+    .reveal:nth-child(2) { transition-delay: 0.16s; }
+    .reveal:nth-child(3) { transition-delay: 0.24s; }
+    .reveal:nth-child(4) { transition-delay: 0.32s; }
+    .reveal:nth-child(5) { transition-delay: 0.4s; }
+
+    /* ===========================================
+       SHARED COMPONENTS
+       =========================================== */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-light);
+      font-size: clamp(0.72rem, 0.9vw, 0.88rem);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .light-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.48rem 0.82rem;
+      border-radius: 999px;
+      border: 1px solid rgba(18, 22, 31, 0.1);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text-ink);
+      font-size: clamp(0.72rem, 0.9vw, 0.86rem);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: clamp(1rem, 2vw, 1.6rem);
+      align-items: center;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(0.8rem, 1.4vw, 1.2rem);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.75rem, 1.2vw, 1rem);
+    }
+
+    .card {
+      width: 100%;
+      border-radius: clamp(1rem, 1.4vw, 1.3rem);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      padding: clamp(1rem, 1.8vw, 1.45rem);
+      overflow: hidden;
+    }
+
+    .dark .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--line-light);
+      box-shadow: none;
+    }
+
+    .card h3 {
+      font-size: clamp(1rem, 1.35vw, 1.24rem);
+      line-height: 1.4;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p,
+    .card li {
+      font-size: clamp(0.82rem, 1.05vw, 0.98rem);
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+
+    .dark .card p,
+    .dark .card li {
+      color: rgba(239, 242, 246, 0.72);
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      color: var(--accent);
+      font-weight: 900;
+      display: inline-block;
+      width: 1rem;
+    }
+
+    .note {
+      font-size: clamp(0.74rem, 0.9vw, 0.88rem);
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+
+    .dark .note {
+      color: rgba(239, 242, 246, 0.58);
+    }
+
+    /* ===========================================
+       NAVIGATION UI
+       =========================================== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      z-index: 100;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 10%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-alt));
+      box-shadow: 0 0 18px var(--accent-glow);
+      transition: width 0.35s ease;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 0.55rem;
+      z-index: 90;
+    }
+
+    .nav-dot {
+      width: 0.72rem;
+      height: 0.72rem;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .nav-dot.active {
+      background: var(--accent);
+      border-color: transparent;
+      transform: scale(1.2);
+    }
+
+    .arrow-controls {
+      position: fixed;
+      left: 0.55rem;
+      bottom: 0.65rem;
+      display: flex;
+      gap: 0.35rem;
+      z-index: 90;
+    }
+
+    .arrow-btn {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(14, 18, 24, 0.32);
+      color: var(--text-light);
+      border-radius: 999px;
+      width: 1.9rem;
+      height: 1.9rem;
+      font-size: 0.72rem;
+      opacity: 0.55;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ===========================================
+       COVER SLIDE
+       =========================================== */
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(1rem, 2vw, 2rem);
+      align-items: center;
+      min-height: 0;
+    }
+
+    .cover-copy {
+      display: grid;
+      gap: clamp(0.8rem, 1.4vh, 1.1rem);
+      max-width: 42rem;
+    }
+
+    .cover-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+
+    .cover-visual {
+      position: relative;
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .halo {
+      position: absolute;
+      width: min(30vw, 360px);
+      height: min(30vw, 360px);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(214, 97, 60, 0.34), rgba(214, 97, 60, 0) 65%);
+      filter: blur(10px);
+    }
+
+    .device-card {
+      position: relative;
+      width: min(32vw, 370px);
+      aspect-ratio: 0.78;
+      padding: clamp(1rem, 1.8vw, 1.3rem);
+      border-radius: 2rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .device-card img {
+      max-height: min(58vh, 520px);
+      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.45));
+    }
+
+    .device-badge {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 1rem;
+      background: rgba(10, 13, 20, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: clamp(0.72rem, 0.88vw, 0.84rem);
+    }
+
+    /* ===========================================
+       PROBLEM / MARKET / PRODUCT SLIDES
+       =========================================== */
+    .hero-statement {
+      display: grid;
+      gap: 1rem;
+      max-width: 65rem;
+    }
+
+    .statement-box {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      font-size: clamp(1.15rem, 1.8vw, 1.7rem);
+      line-height: 1.65;
+      max-width: 56rem;
+    }
+
+    .market-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      border-radius: 1rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+      width: fit-content;
+    }
+
+    .flow-stack {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .flow-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.8rem;
+      align-items: start;
+    }
+
+    .flow-num {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .mini-caption {
+      font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .product-visual {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      gap: 1rem;
+      min-height: 0;
+    }
+
+    .product-hero {
+      width: auto;
+      max-width: 100%;
+      max-height: min(68vh, 560px);
+      object-fit: contain;
+    }
+
+    .screen-chip {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      max-width: min(20vw, 180px);
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(18, 22, 31, 0.08);
+      padding: 0.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .screen-chip img {
+      max-height: min(18vh, 120px);
+    }
+
+    /* ===========================================
+       VALIDATION SLIDES
+       =========================================== */
+    .proof-layout {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: clamp(1rem, 2vw, 1.5rem);
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .collage {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0.7rem;
+      min-height: 0;
+    }
+
+    .collage .card {
+      padding: 0.55rem;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .collage .main-shot {
+      grid-row: 1 / span 2;
+    }
+
+    .collage img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+      border-radius: 0.85rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .metric-card {
+      border-radius: 1.2rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      padding: 1rem;
+      display: grid;
+      gap: 0.45rem;
+      color: var(--text-ink);
+    }
+
+    .metric-card .label {
+      font-size: clamp(0.72rem, 0.84vw, 0.82rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .metric-card .desc {
+      font-size: clamp(0.76rem, 0.94vw, 0.86rem);
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .metric-split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+      align-items: end;
+    }
+
+    .metric-split-item {
+      display: grid;
+      gap: 0.1rem;
+    }
+
+    .metric-split-item strong {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 2.4vw, 2.5rem);
+      line-height: 1;
+      font-weight: 900;
+      color: var(--text-ink);
+    }
+
+    .metric-split-item span {
+      font-size: clamp(0.72rem, 0.86vw, 0.82rem);
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .insight-banner {
+      border-radius: 1.2rem;
+      padding: 1rem 1.1rem;
+      background: linear-gradient(135deg, rgba(214, 97, 60, 0.12), rgba(127, 181, 155, 0.12));
+      border: 1px solid rgba(214, 97, 60, 0.12);
+      line-height: 1.65;
+      font-size: clamp(0.9rem, 1.18vw, 1.04rem);
+    }
+
+    .chart-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: clamp(1rem, 2vw, 1.6rem);
+      align-items: center;
+      min-height: 0;
+    }
+
+    .donut-wrap {
+      display: grid;
+      justify-items: center;
+      gap: 0.9rem;
+    }
+
+    .donut {
+      width: min(30vw, 300px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: conic-gradient(
+        #d6613c 0 26.1%,
+        #8f6fd6 26.1% 45.7%,
+        #4c88c7 45.7% 63.1%,
+        #b98d4a 63.1% 80.5%,
+        #7fb59b 80.5% 93.5%,
+        #90a6b5 93.5% 100%
+      );
+      position: relative;
+      box-shadow: 0 26px 60px rgba(15, 22, 34, 0.2);
+    }
+
+    .donut::after {
+      content: "46 条\A明确诉求";
+      white-space: pre-line;
+      position: absolute;
+      inset: 18%;
+      border-radius: 50%;
+      background: var(--bg-paper);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 1.35vw, 1.2rem);
+      line-height: 1.45;
+      color: var(--text-ink);
+      box-shadow: inset 0 0 0 1px rgba(18, 22, 31, 0.06);
+    }
+
+    .legend {
+      display: grid;
+      gap: 0.55rem;
+      width: 100%;
+      max-width: 18rem;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.65rem;
+      align-items: center;
+      font-size: clamp(0.78rem, 0.94vw, 0.9rem);
+      color: var(--text-muted);
+    }
+
+    .legend-swatch {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+    }
+
+    .bars {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .bar-card {
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid var(--line);
+      display: grid;
+      gap: 0.6rem;
+      color: var(--text-ink);
+    }
+
+    .bar-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .bar-track {
+      height: 0.56rem;
+      border-radius: 999px;
+      background: rgba(18, 22, 31, 0.08);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    .subtheme-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .subtheme {
+      padding: 0.38rem 0.58rem;
+      border-radius: 999px;
+      background: rgba(18, 22, 31, 0.05);
+      font-size: clamp(0.7rem, 0.84vw, 0.8rem);
+      color: var(--text-muted);
+    }
+
+    .quote-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .quote-card {
+      border-radius: 1.1rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      display: grid;
+      gap: 0.65rem;
+      min-height: 0;
+      color: var(--text-ink);
+    }
+
+    .proof-strip-list {
+      display: grid;
+      gap: 0.7rem;
+      min-height: 0;
+    }
+
+    .proof-strip {
+      padding: 0.25rem 0.4rem;
+      min-height: 0;
+      height: clamp(8.5rem, 18vh, 11rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .proof-strip img {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 0.85rem;
+      display: block;
+      background: #fff;
+    }
+
+    .micro-note {
+      font-size: clamp(0.74rem, 0.88vw, 0.84rem);
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .dark .micro-note {
+      color: rgba(239, 242, 246, 0.68);
+    }
+
+    .quote-card blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.62;
+    }
+
+    .quote-tag {
+      width: fit-content;
+      font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+      padding: 0.32rem 0.56rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ===========================================
+       POSITIONING / EXECUTION / DISCUSSION
+       =========================================== */
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .matrix-card {
+      border-radius: 1.2rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      padding: 1rem;
+      display: grid;
+      gap: 0.55rem;
+      color: var(--text-ink);
+    }
+
+    .matrix-card .kicker {
+      font-size: clamp(0.72rem, 0.9vw, 0.82rem);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .timeline-card {
+      border-radius: 1.1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      padding: 1rem;
+      display: grid;
+      gap: 0.45rem;
+      color: var(--text-ink);
+    }
+
+    .timeline-card .stat-value {
+      font-size: clamp(1.75rem, 2.5vw, 2.9rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      word-break: break-word;
+    }
+
+    .timeline-card p {
+      font-size: clamp(0.78rem, 0.92vw, 0.9rem);
+      line-height: 1.55;
+    }
+
+    .asset-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .asset-chip {
+      position: relative;
+      min-height: 10.8rem;
+      border-radius: 1rem;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .asset-chip img,
+    .asset-chip video {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+      display: block;
+      background: #151922;
+    }
+
+    .asset-chip video {
+      pointer-events: none;
+    }
+
+    .asset-chip::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 44%;
+      background: linear-gradient(180deg, rgba(8, 10, 15, 0) 0%, rgba(8, 10, 15, 0.82) 100%);
+      pointer-events: none;
+    }
+
+    .asset-label {
+      position: absolute;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: 0.65rem;
+      z-index: 1;
+      font-size: clamp(0.76rem, 0.9vw, 0.86rem);
+      line-height: 1.35;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    .discussion-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .positioning-grid {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: clamp(1rem, 2vw, 1.35rem);
+      align-items: start;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.7rem;
+      align-items: start;
+      font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+      line-height: 1.65;
+    }
+
+    .check-mark {
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .asset-slot {
+      position: relative;
+      min-height: 11rem;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px dashed rgba(18, 22, 31, 0.18);
+      background:
+        linear-gradient(135deg, rgba(214, 97, 60, 0.08), rgba(127, 181, 155, 0.08)),
+        rgba(255, 255, 255, 0.78);
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .dark .asset-slot {
+      border-color: rgba(255, 255, 255, 0.18);
+      background:
+        linear-gradient(135deg, rgba(214, 97, 60, 0.1), rgba(127, 181, 155, 0.08)),
+        rgba(255, 255, 255, 0.04);
+    }
+
+    .asset-slot img,
+    .asset-slot video {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: #171c26;
+    }
+
+    .asset-slot.loaded img,
+    .asset-slot.loaded video {
+      opacity: 1;
+    }
+
+    .asset-slot.loaded .asset-placeholder {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .asset-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 0.35rem;
+      padding: 1.2rem;
+      text-align: center;
+      color: var(--text-ink);
+      z-index: 1;
+      transition: opacity 0.25s ease;
+    }
+
+    .dark .asset-placeholder {
+      color: var(--text-light);
+    }
+
+    .asset-kicker {
+      font-size: clamp(0.68rem, 0.82vw, 0.78rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .dark .asset-kicker {
+      color: rgba(239, 242, 246, 0.68);
+    }
+
+    .asset-filename {
+      font-size: clamp(0.86rem, 1.08vw, 1rem);
+      font-weight: 700;
+      line-height: 1.4;
+      max-width: 16rem;
+      word-break: break-word;
+    }
+
+    .asset-hint {
+      font-size: clamp(0.74rem, 0.88vw, 0.84rem);
+      line-height: 1.45;
+      color: var(--text-muted);
+      max-width: 18rem;
+    }
+
+    .dark .asset-hint {
+      color: rgba(239, 242, 246, 0.68);
+    }
+
+    .asset-slot.hero-slot {
+      min-height: min(58vh, 540px);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(214, 97, 60, 0.18), transparent 42%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
+      border-style: solid;
+    }
+
+    .asset-slot.hero-slot img,
+    .asset-slot.hero-slot video {
+      object-fit: contain;
+      padding: 1rem;
+    }
+
+    .asset-slot.team-photo {
+      min-height: 12rem;
+    }
+
+    .asset-list.two-col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .market-growth-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: clamp(1rem, 2vw, 1.4rem);
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .growth-panel {
+      border-radius: 1.35rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+      padding: clamp(1rem, 1.8vw, 1.35rem);
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .dark .growth-panel {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--line-light);
+      box-shadow: none;
+    }
+
+    .growth-chart {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      align-items: end;
+      gap: clamp(0.45rem, 0.8vw, 0.7rem);
+      min-height: 17rem;
+      padding-top: 0.8rem;
+    }
+
+    .growth-col {
+      display: grid;
+      gap: 0.45rem;
+      align-items: end;
+      justify-items: center;
+    }
+
+    .growth-value {
+      font-size: clamp(0.64rem, 0.82vw, 0.76rem);
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    .dark .growth-value {
+      color: rgba(239, 242, 246, 0.64);
+    }
+
+    .growth-bar-wrap {
+      width: 100%;
+      height: 13.5rem;
+      border-radius: 999px;
+      background: rgba(18, 22, 31, 0.06);
+      display: flex;
+      align-items: flex-end;
+      padding: 0.2rem;
+    }
+
+    .dark .growth-bar-wrap {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .growth-bar {
+      width: 100%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent-alt) 0%, var(--accent) 100%);
+      box-shadow: 0 12px 30px rgba(214, 97, 60, 0.18);
+    }
+
+    .growth-year {
+      font-size: clamp(0.72rem, 0.88vw, 0.84rem);
+      font-weight: 700;
+      color: var(--text-ink);
+    }
+
+    .dark .growth-year {
+      color: var(--text-light);
+    }
+
+    .growth-metrics {
+      display: grid;
+      gap: 0.75rem;
+      align-content: start;
+    }
+
+    .growth-note {
+      border-radius: 1.1rem;
+      padding: 0.9rem 1rem;
+      background: linear-gradient(135deg, rgba(214, 97, 60, 0.12), rgba(127, 181, 155, 0.12));
+      border: 1px solid rgba(214, 97, 60, 0.12);
+      line-height: 1.6;
+      font-size: clamp(0.84rem, 1vw, 0.92rem);
+      color: var(--text-ink);
+    }
+
+    .market-structure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1rem, 2vw, 1.3rem);
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .route-stack,
+    .price-stack {
+      display: grid;
+      gap: 0.8rem;
+      align-content: start;
+    }
+
+    .route-card,
+    .price-card {
+      border-radius: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      padding: 1rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .route-card .kicker,
+    .price-card .kicker {
+      font-size: clamp(0.7rem, 0.86vw, 0.8rem);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(239, 242, 246, 0.62);
+    }
+
+    .route-card p,
+    .price-card p {
+      color: rgba(239, 242, 246, 0.76);
+    }
+
+    .band-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .band-range {
+      min-width: 7rem;
+      padding: 0.48rem 0.72rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: clamp(0.72rem, 0.88vw, 0.82rem);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .band-copy strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: clamp(0.9rem, 1.08vw, 1rem);
+    }
+
+    .band-copy span {
+      font-size: clamp(0.76rem, 0.92vw, 0.86rem);
+      line-height: 1.45;
+      color: rgba(239, 242, 246, 0.72);
+    }
+
+    .team-card {
+      display: grid;
+      gap: 0.8rem;
+      align-content: start;
+    }
+
+    .team-card h3 {
+      margin-bottom: 0.15rem;
+    }
+
+    .team-card p {
+      margin-top: 0.15rem;
+    }
+
+    /* ===========================================
+       RESPONSIVE REFINEMENTS
+       =========================================== */
+    @media (max-width: 980px) {
+      .cover-grid,
+      .grid-2,
+      .proof-layout,
+      .chart-layout,
+      .discussion-grid,
+      .market-growth-grid,
+      .market-structure-grid,
+      .positioning-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3,
+      .grid-4,
+      .quote-grid,
+      .timeline,
+      .asset-list,
+      .matrix-grid,
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .collage {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+
+      .collage .main-shot {
+        grid-row: auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .grid-3,
+      .grid-4,
+      .quote-grid,
+      .timeline,
+      .asset-list,
+      .matrix-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-dots {
+        right: 0.55rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+  <div class="arrow-controls">
+    <button class="arrow-btn" id="prevBtn" aria-label="Previous slide">←</button>
+    <button class="arrow-btn" id="nextBtn" aria-label="Next slide">→</button>
+  </div>
+
+  <main class="deck" id="deck">
+    <!-- ===========================================
+         Slide 1: Cover
+         =========================================== -->
+    <section class="slide dark active visible" data-title="封面">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>ClawTile 融资材料</span>
+          <span>2026-04-20</span>
+        </div>
+        <div class="slide-body cover-grid">
+          <div class="cover-copy">
+            <div class="eyebrow reveal">AI 原生个人入口设备</div>
+            <h1 class="headline reveal">
+              <span class="soft">ClawTile：</span><br>
+              <span class="accent">从 AI 录音卡开始，把现实世界输入接进个人 AI。</span>
+            </h1>
+            <p class="lede reveal">
+              先用录音卡切入，再扩到覆盖采集、回看与交互的 AI 原生个人入口设备。
+            </p>
+            <div class="cover-meta reveal">
+              <span class="pill">Demo 样机已出</span>
+              <span class="pill">500+ 早期用户社区</span>
+              <span class="pill">20+ 首批订单信号</span>
+            </div>
+          </div>
+          <div class="cover-visual reveal">
+            <div class="halo decorative"></div>
+            <div class="asset-slot hero-slot" data-asset-src="./assets-v2/cover-hero-device.png" data-asset-type="image">
+              <img alt="ClawTile 封面主视觉">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">cover-hero-device.png</strong>
+                <span class="asset-hint">封面主视觉，建议透明底 PNG，长边 1800px 以上。</span>
+              </div>
+              <div class="device-badge">第一入口：录音卡</div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>01 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 2: Problem
+         =========================================== -->
+    <section class="slide" data-title="个人 AI 缺什么">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>问题</span>
+          <span>现实世界入口</span>
+        </div>
+        <div class="slide-body">
+          <div class="eyebrow reveal">问题定义</div>
+          <h2 class="title reveal">个人 AI 缺的不是更强模型，而是现实世界入口。</h2>
+          <div class="grid-3">
+            <article class="card reveal">
+              <h3>采进来</h3>
+              <ul class="bullet-list">
+                <li>现实世界信息进入 AI，仍主要依赖手机、应用和手动上传。</li>
+                <li>会议、访谈、灵感和待办高频发生，但入口步骤依然偏长。</li>
+                <li>用户缺的不是再一个文件，而是更短的输入路径。</li>
+              </ul>
+            </article>
+            <article class="card reveal">
+              <h3>接得上</h3>
+              <ul class="bullet-list">
+                <li>用户已经有飞书、钉钉、知识库和自建 Agent 等既有工具链。</li>
+                <li>真正稀缺的不是新生态，而是能无缝接入既有链路的硬件入口。</li>
+                <li>接不上现有工作流，新增设备很快就会被闲置。</li>
+              </ul>
+            </article>
+            <article class="card reveal">
+              <h3>回得来</h3>
+              <ul class="bullet-list">
+                <li>用户购买的不是采集动作，而是纪要、待办、状态和下一步。</li>
+                <li>结果仍散落在通知、聊天和文档列表里，入口价值就会迅速折损。</li>
+                <li>个人 AI 需要的不是单点功能，而是采集后能及时回看的设备。</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>02 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 3: Why Now
+         =========================================== -->
+    <section class="slide dark" data-title="为什么先从录音卡切入">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>切入口</span>
+          <span>先做录音卡</span>
+        </div>
+        <div class="slide-body">
+          <div class="eyebrow reveal">第一入口</div>
+          <h2 class="title reveal">录音卡是当前最容易打穿的第一入口。</h2>
+          <div class="grid-3">
+            <article class="card reveal">
+              <h3>高频且成熟</h3>
+              <p>语音记录本身就是高频行为，会议、访谈、待办和灵感都能落到同一入口。</p>
+            </article>
+            <article class="card reveal">
+              <h3>被教育过</h3>
+              <p>钉钉 A1、PLAUD、飞书 × 安克等产品，已经把需求、价带和比较框架教育出来。</p>
+            </article>
+            <article class="card reveal">
+              <h3>最容易验证</h3>
+              <p>样机、预售和明确反馈都已出现，这个形态最容易把“产品能否成立”跑出结论。</p>
+            </article>
+          </div>
+          <div class="market-ribbon reveal">先打穿最容易被理解、比较和购买的一种入口，再向更多输入与轻交互形态扩展。</div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>03 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 4: Device Family Ceiling
+         =========================================== -->
+    <section class="slide dark" data-title="2C + 2B 市场">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>市场结构</span>
+          <span>2C 与 2B</span>
+        </div>
+        <div class="slide-body market-structure-grid">
+          <div class="route-stack reveal">
+            <div class="eyebrow">市场结构</div>
+            <h2 class="title">2C 入口已被验证，2B 会议助手市场 2025 年已达 34.7 亿美元。</h2>
+            <article class="route-card">
+              <div class="kicker">2C</div>
+              <h3>6.1 亿 → 6.9 亿台</h3>
+              <p>可穿戴与轻量设备持续增长，说明用户已经接受贴身、低摩擦的个人入口设备。</p>
+            </article>
+            <article class="route-card">
+              <div class="kicker">2C</div>
+              <h3>2025 年同比 +44.4%</h3>
+              <p>智能眼镜拉动 XR 增长，说明消费级 AI 入口正在从重设备转向更轻、更日常的形态。</p>
+            </article>
+            <article class="route-card">
+              <div class="kicker">2B</div>
+              <h3>34.7 亿 → 214.8 亿美元</h3>
+              <p>AI 会议助手市场快速扩张，说明团队语音记录、纪要和协同流程已经进入结构化付费阶段。</p>
+            </article>
+          </div>
+          <div class="price-stack reveal">
+            <article class="price-card">
+              <div class="kicker">为什么是双轮驱动</div>
+              <h3>先用 2C 做入口，再用 2B 做收入深度。</h3>
+              <div class="band-row">
+                <div class="band-range">2C</div>
+                <div class="band-copy">
+                  <strong>个人入口设备</strong>
+                  <span>先把低摩擦输入做成用户愿意随身携带、愿意反复使用的个人入口。</span>
+                </div>
+              </div>
+              <div class="band-row">
+                <div class="band-range">2B</div>
+                <div class="band-copy">
+                  <strong>团队工作流</strong>
+                  <span>再把纪要、待办、知识沉淀和协同流程接进团队与企业场景，拉高客单与收入厚度。</span>
+                </div>
+              </div>
+              <div class="band-row">
+                <div class="band-range">路径</div>
+                <div class="band-copy">
+                  <strong>单品先成立，再扩成设备家族</strong>
+                  <span>入口先在 2C 立住，收入再在 2B 和后续设备形态里逐步加深。</span>
+                </div>
+              </div>
+            </article>
+            <div class="growth-note">
+              下一页只回答一个问题：为什么第一步先做录音卡。
+            </div>
+            <div class="micro-note">来源：IDC Wearable Devices Market Insights（2026-03-25）、IDC XR Market Expands 44.4% in 2025（2026-03-25）、Grand View Research AI Meeting Assistant Market Report（2026）。</div>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>04 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 5: Voice Card Wedge
+         =========================================== -->
+    <section class="slide" data-title="录音卡赛道">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>第一切口</span>
+          <span>录音卡赛道</span>
+        </div>
+        <div class="slide-body market-growth-grid">
+          <div class="growth-panel reveal">
+            <div class="eyebrow">切入口</div>
+            <h2 class="title">录音卡市场 2025 年 3.09 亿美元，2032 年预计超过 11.7 亿美元。</h2>
+            <div class="growth-chart" aria-label="2025-2032 全球 AI 录音卡市场规模增长图">
+              <div class="growth-col">
+                <span class="growth-value">$0.31B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:26.3%;"></div></div>
+                <span class="growth-year">2025</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.37B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:31.8%;"></div></div>
+                <span class="growth-year">2026</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.45B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:38.5%;"></div></div>
+                <span class="growth-year">2027</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.55B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:46.6%;"></div></div>
+                <span class="growth-year">2028</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.66B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:56.4%;"></div></div>
+                <span class="growth-year">2029</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.80B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:68.3%;"></div></div>
+                <span class="growth-year">2030</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$0.97B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:82.6%;"></div></div>
+                <span class="growth-year">2031</span>
+              </div>
+              <div class="growth-col">
+                <span class="growth-value">$1.18B</span>
+                <div class="growth-bar-wrap"><div class="growth-bar" style="height:100%;"></div></div>
+                <span class="growth-year">2032</span>
+              </div>
+            </div>
+            <div class="micro-note">来源：LP Information、Global Info Research、QYResearch；2026-2031 为按 20.5% CAGR 中位值推算的可视化中间值。</div>
+          </div>
+          <div class="growth-metrics reveal">
+            <div class="metric-card">
+              <div class="label">2025 全球市场规模</div>
+              <div class="stat-value">$309M</div>
+              <div class="desc">三家研究机构对 2025 基准值基本一致。</div>
+            </div>
+            <div class="metric-card">
+              <div class="label">2032 全球市场规模</div>
+              <div class="stat-value">$1.17B+</div>
+              <div class="desc">预测区间约 $1.167B - $1.185B。</div>
+            </div>
+            <div class="metric-card">
+              <div class="label">2026-2032 CAGR</div>
+              <div class="stat-value">19.9% - 21.2%</div>
+              <div class="desc">公开研究对增长斜率的预测区间较接近。</div>
+            </div>
+            <div class="metric-card">
+              <div class="label">品类验证</div>
+              <div class="metric-split">
+                <div class="metric-split-item">
+                  <strong>100万台+</strong>
+                  <span>Plaud 出货</span>
+                </div>
+                <div class="metric-split-item">
+                  <strong>$250M</strong>
+                  <span>2025 年化收入</span>
+                </div>
+              </div>
+              <div class="desc">说明这不是纸上赛道，已经出现真实销量与真实收入验证。</div>
+            </div>
+            <div class="growth-note">
+              这意味着第一步进入的是一个已被教育、仍在扩容的新赛道。
+            </div>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>05 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 6: Product
+         =========================================== -->
+    <section class="slide" data-title="产品是什么">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>产品</span>
+          <span>第一款产品</span>
+        </div>
+        <div class="slide-body grid-2">
+          <div class="asset-list two-col reveal">
+            <div class="asset-slot" style="grid-column: 1 / -1; min-height: 15rem;" data-asset-src="./assets-v2/product-hero-device.png" data-asset-type="image">
+              <img alt="ClawTile 产品主图">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">product-hero-device.png</strong>
+                <span class="asset-hint">产品主图，建议纯净背景或透明底，长边 1600px 以上。</span>
+              </div>
+            </div>
+            <div class="asset-slot" data-asset-src="./assets-v2/product-scene-phone.jpg" data-asset-type="image">
+              <img alt="ClawTile 磁吸在手机上的场景图">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">product-scene-phone.jpg</strong>
+                <span class="asset-hint">上机或磁吸状态实拍，横图优先。</span>
+              </div>
+            </div>
+            <div class="asset-slot" data-asset-src="./assets-v2/demo-workflow.mp4" data-asset-type="video">
+              <video muted loop playsinline></video>
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">demo-workflow.mp4</strong>
+                <span class="asset-hint">10-20 秒短视频，建议展示“录音 → 处理 → 回屏”。</span>
+              </div>
+            </div>
+          </div>
+          <div class="flow-stack">
+            <div class="eyebrow reveal">第一款产品</div>
+            <h2 class="title reveal">第一款产品，把录音、处理和回看压缩成一张卡。</h2>
+            <article class="card flow-card reveal">
+              <div class="flow-num">1</div>
+              <div>
+                <h3>会议录音 → Agent 整理 → 纪要回屏</h3>
+                <p>录音完成后直接进入处理链路，结果再回到设备屏幕。</p>
+              </div>
+            </article>
+            <article class="card flow-card reveal">
+              <div class="flow-num">2</div>
+              <div>
+                <h3>一句话待办 → Agent 处理 → 屏幕显示</h3>
+                <p>一句话即可记录任务，再交给 Agent 整理并回屏。</p>
+              </div>
+            </article>
+            <article class="card flow-card reveal">
+              <div class="flow-num">3</div>
+              <div>
+                <h3>轻入口 / 低打扰 / 陪伴式结果窗</h3>
+                <p>墨水屏承担“回看”角色，让结果常在眼前但不过度打扰。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>06 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 7: Validation Overview
+         =========================================== -->
+    <section class="slide" data-title="验证概览">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>验证</span>
+          <span>需求验证</span>
+        </div>
+        <div class="slide-body proof-layout">
+          <div class="proof-strip-list reveal">
+            <div class="asset-slot" style="min-height: 10rem;" data-asset-src="./assets-v2/proof-orders-dashboard.png" data-asset-type="image">
+              <img alt="订单或预售后台证明截图">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">proof-orders-dashboard.png</strong>
+                <span class="asset-hint">可脱敏订单后台 / 支付证明截图，横图优先。</span>
+              </div>
+            </div>
+            <div class="asset-slot" style="min-height: 10rem;" data-asset-src="./assets-v2/proof-community-count.png" data-asset-type="image">
+              <img alt="社群人数证明截图">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">proof-community-count.png</strong>
+                <span class="asset-hint">社群人数或社区人数截图，建议带日期。</span>
+              </div>
+            </div>
+            <div class="asset-slot" style="min-height: 10rem;" data-asset-src="./assets-v2/proof-user-feedback-01.png" data-asset-type="image">
+              <img alt="真实用户反馈截图">
+              <div class="asset-placeholder">
+                <span class="asset-kicker">待替换素材</span>
+                <strong class="asset-filename">proof-user-feedback-01.png</strong>
+                <span class="asset-hint">用户原话或真实聊天反馈，建议做基础脱敏。</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid; gap:0.85rem;" class="reveal">
+            <div class="eyebrow">早期验证</div>
+            <h2 class="title">我们验证的不是兴趣，而是购买判断。</h2>
+            <div class="stats-grid">
+              <div class="metric-card">
+                <div class="label">全网自然曝光</div>
+                <div class="stat-value">30,000+</div>
+                <div class="desc">在无投广、无买量条件下拿到的第一波自然传播。</div>
+              </div>
+              <div class="metric-card">
+                <div class="label">早期用户社区</div>
+                <div class="stat-value">500+</div>
+                <div class="desc">当前由 2 个 200 人微信群、1 个 36 人微信群和 1 个 121 人小红书群构成。</div>
+              </div>
+              <div class="metric-card">
+                <div class="label">首批订单信号</div>
+                <div class="stat-value">20+</div>
+                <div class="desc">样机已出，已经出现真实付费和订单信号。</div>
+              </div>
+              <div class="metric-card">
+                <div class="label">外部用户留言</div>
+                <div class="stat-value">51</div>
+                <div class="desc">3 篇小红书帖子全量抓取；共 76 条留言，其中作者回复 25 条、外部用户 45 人。</div>
+              </div>
+            </div>
+            <div class="insight-banner">
+              用户最集中在三类判断：手机能否替代、工作流能否接入、价格与形态是否成立。
+            </div>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>07 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 8: Evidence Structure
+         =========================================== -->
+    <section class="slide" data-title="用户反馈结构">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>反馈</span>
+          <span>用户问题</span>
+        </div>
+        <div class="slide-body chart-layout">
+          <div class="donut-wrap reveal">
+            <div class="eyebrow">最新留言</div>
+            <h2 class="title" style="text-align:center; max-width:22rem;">外部用户的问题，已经高度收敛到六类。</h2>
+            <div class="donut" aria-label="评论主题占比圆环图"></div>
+            <div class="legend">
+              <div class="legend-item"><span class="legend-swatch" style="background:#d6613c;"></span><span>手机替代 / 竞品对照</span><strong>26.1%</strong></div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#8f6fd6;"></span><span>信息不足 / 功能建议</span><strong>19.6%</strong></div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#4c88c7;"></span><span>价格与购买</span><strong>17.4%</strong></div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#b98d4a;"></span><span>产品形态与交互</span><strong>17.4%</strong></div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#7fb59b;"></span><span>工作流兼容</span><strong>13.0%</strong></div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#90a6b5;"></span><span>合作 / 渠道 / 供应链</span><strong>6.5%</strong></div>
+            </div>
+            <div class="micro-note" style="text-align:center; max-width:22rem;">口径：3 篇帖子评论全量抓取；分母为 46 条有明确判断或诉求的外部用户留言。</div>
+          </div>
+          <div class="bars reveal" id="themeBars"></div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>08 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 9: Target User
+         =========================================== -->
+    <section class="slide" data-title="获客路径">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>获客</span>
+          <span>第一批客户</span>
+        </div>
+        <div class="slide-body">
+          <div class="hero-statement">
+            <div class="eyebrow reveal">获客路径</div>
+            <h2 class="title reveal">第一批客户会先从内容和社群里成交。</h2>
+            <p class="subtitle reveal">当前路径是：内容种草 → 社群沉淀 → 预售成交 → 首批交付 → 转介绍放大。</p>
+          </div>
+          <div class="grid-3">
+            <article class="card reveal">
+              <h3>内容种草</h3>
+              <p>先用样机演示、公开讨论和对比内容，把“为什么不是手机应用”讲清楚，让目标用户进入具体比较。</p>
+            </article>
+            <article class="card reveal">
+              <h3>社群沉淀与预售</h3>
+              <p>把意向用户沉淀进微信群和小红书群，在持续答疑与共创中完成预售和首批交付。</p>
+            </article>
+            <article class="card reveal">
+              <h3>合作扩散</h3>
+              <p>下一步重点是 AI 社群、垂直 KOL、企业试点和渠道伙伴，把口碑变成可复制成交。</p>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>09 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 10: Positioning
+         =========================================== -->
+    <section class="slide dark" data-title="竞争与替代方案">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>竞争</span>
+          <span>两类替代</span>
+        </div>
+        <div class="slide-body positioning-grid">
+          <div style="display:grid; gap:0.9rem;" class="reveal">
+            <div class="eyebrow">竞争焦点</div>
+            <h2 class="title">26.1% 的外部评论都在比较替代方案；真正竞争是手机和其他硬件。</h2>
+            <div class="card">
+              <ul class="bullet-list">
+                <li>手机是最强替代，因为新增成本最低，用户天然会先拿它做比较。</li>
+                <li>独立设备只有把动作缩短、现场打断降到更低，才有存在价值。</li>
+                <li>其他硬件已经把需求、价带和比较框架教育出来，问题不是要不要做硬件，而是做哪一种入口更顺手。</li>
+              </ul>
+            </div>
+            <div class="market-ribbon">竞争先比入口效率，再比生态与价格。</div>
+          </div>
+          <div class="matrix-grid reveal">
+            <article class="matrix-card">
+              <div class="kicker">最强替代方案</div>
+              <h3>手机 + 录音应用 + 现有 AI</h3>
+              <p>零新增硬件成本，但动作更长、现场干扰更强，结果回看也更分散。</p>
+            </article>
+            <article class="matrix-card">
+              <div class="kicker">生态硬件</div>
+              <h3>钉钉 A1 / 飞书 × 安克</h3>
+              <p>协同闭环最强，但更依赖单一办公生态；对已有自有 AI 工具链的用户，迁移成本更高。</p>
+            </article>
+            <article class="matrix-card">
+              <div class="kicker">品类验证</div>
+              <h3>PLAUD</h3>
+              <p>100 万台+ 出货、2.5 亿美元年化收入，说明高价硬件与订阅模式已经被市场验证。</p>
+            </article>
+            <article class="matrix-card">
+              <div class="kicker">我们的机会</div>
+              <h3>更轻的独立入口</h3>
+              <p>面向已有 AI 工具链的人群，把录音、回看和结果接入做得比手机更顺手，比封闭生态更自由。</p>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>10 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 11: Commercial Path
+         =========================================== -->
+    <section class="slide" data-title="商业模式">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>商业模式</span>
+          <span>收入结构</span>
+        </div>
+        <div class="slide-body">
+          <div class="hero-statement reveal">
+            <div class="eyebrow">增长顺序</div>
+            <h2 class="title">先用硬件验证成交与毛利，再把服务和第二形态做成增量。</h2>
+            <p class="subtitle">当前阶段先把单品做成可成交、可交付、可赚钱的产品，再逐步拉高复购、客单和收入结构。</p>
+          </div>
+          <div class="grid-3 reveal">
+            <article class="card">
+              <h3>第一层收入</h3>
+              <ul class="bullet-list">
+                <li>第一性收入仍然来自硬件销售。</li>
+                <li>定价围绕真实付费意愿和主战场价带确定。</li>
+                <li>先证明不是“卖一台亏一台”的生意。</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>第二层收入</h3>
+              <ul class="bullet-list">
+                <li>模板、工作流与托管服务。</li>
+                <li>企业试点与协同能力带来更高客单价。</li>
+                <li>服务收入建立在硬件入口成立之后。</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>第三层增量</h3>
+              <ul class="bullet-list">
+                <li>第二类输入设备与更高频轻交互设备。</li>
+                <li>设备家族扩大入口密度与使用频率。</li>
+                <li>增长顺序必须建立在第一单品成立之后。</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>11 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 12: Financial Outlook
+         =========================================== -->
+    <section class="slide dark" data-title="三年经营预测">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>财务预测</span>
+          <span>三年经营</span>
+        </div>
+        <div class="slide-body">
+          <div class="hero-statement">
+            <div class="eyebrow reveal">基准情景</div>
+            <h2 class="title reveal">三年基准情景：120 万 → 650 万 → 2400 万。</h2>
+            <p class="subtitle reveal">核心是先验证收入、毛利和放量节奏能否成立。</p>
+          </div>
+          <div class="grid-4 reveal">
+            <article class="metric-card">
+              <div class="label">第 1 年</div>
+              <div class="stat-value">¥1.2M</div>
+              <div class="desc">2,000 台 · 平均售价 ¥499 · 毛利率 30% - 35%</div>
+              <div class="note">以录音卡为主，目标是完成交付和单台毛利验证。</div>
+            </article>
+            <article class="metric-card">
+              <div class="label">第 2 年</div>
+              <div class="stat-value">¥6.5M</div>
+              <div class="desc">10,000 台 · 平均售价 ¥529 · 毛利率 38% - 42%</div>
+              <div class="note">第一产品放量，开始出现模板、工作流或企业试点收入。</div>
+            </article>
+            <article class="metric-card">
+              <div class="label">第 3 年</div>
+              <div class="stat-value">¥24M</div>
+              <div class="desc">35,000 台 · 综合售价 ¥599 · 毛利率 45% - 50%</div>
+              <div class="note">第一入口继续放量，第二形态开始贡献新增收入。</div>
+            </article>
+            <article class="metric-card">
+              <div class="label">单台模型</div>
+              <div class="metric-split">
+                <div class="metric-split-item">
+                  <strong>¥499</strong>
+                  <span>草拟售价</span>
+                </div>
+                <div class="metric-split-item">
+                  <strong>≈¥325</strong>
+                  <span>单台总成本</span>
+                </div>
+              </div>
+              <div class="desc">对应单台毛利约 ¥174；更细利润表适合放在补充材料或会里展开。</div>
+            </article>
+          </div>
+          <div class="micro-note reveal">以上为早期融资阶段适配的草拟口径，后续可按真实售价、物料成本、交付节奏和服务附着率替换。</div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>12 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 13: Milestones
+         =========================================== -->
+    <section class="slide" data-title="里程碑">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>里程碑</span>
+          <span>未来 6-12 个月</span>
+        </div>
+        <div class="slide-body">
+          <div class="eyebrow reveal">下一阶段</div>
+          <h2 class="title reveal">未来 6-12 个月，要把国内成交、海外起量和首批交付做出来。</h2>
+          <div class="timeline reveal">
+            <article class="timeline-card">
+              <div class="kicker">Milestone 1</div>
+              <div class="stat-value">国内预售</div>
+              <p>持续完成国内用户预售成交，证明第一批目标用户愿意为产品付费。</p>
+            </article>
+            <article class="timeline-card">
+              <div class="kicker">Milestone 2</div>
+              <div class="stat-value">国内交付</div>
+              <p>完成首批国内用户交付，拿到真实使用反馈，而不只是停留在样机演示。</p>
+            </article>
+            <article class="timeline-card">
+              <div class="kicker">Milestone 3</div>
+              <div class="stat-value">海外起量</div>
+              <p>在 Reddit 等海外社区持续获得讨论、留资和传播热度，验证海外用户需求强度。</p>
+            </article>
+            <article class="timeline-card">
+              <div class="kicker">Milestone 4</div>
+              <div class="stat-value">海外预售</div>
+              <p>独立站上线并启动预售，完成第一批海外客户交付，验证跨境成交与履约能力。</p>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>13 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 14: Team
+         =========================================== -->
+    <section class="slide" data-title="团队">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>团队</span>
+          <span>为什么是我们</span>
+        </div>
+        <div class="slide-body">
+          <div class="hero-statement">
+            <div class="eyebrow reveal">核心团队</div>
+            <h2 class="title reveal">三个人，刚好覆盖硬件交付、产品渠道和用户增长。</h2>
+            <p class="subtitle reveal">团队组合既能把第一款产品做出来，也能把国内外需求验证、销售推进和融资沟通同步拉起来。</p>
+          </div>
+          <div class="grid-3">
+            <article class="card team-card reveal">
+              <div class="asset-slot team-photo" data-asset-src="./assets-v2/team-daxia.jpg" data-asset-type="image">
+                <img alt="大侠头像">
+                <div class="asset-placeholder">
+                  <span class="asset-kicker">待替换素材</span>
+                  <strong class="asset-filename">team-daxia.jpg</strong>
+                  <span class="asset-hint">建议 1:1 头像，干净背景。</span>
+                </div>
+              </div>
+              <div>
+                <h3>大侠</h3>
+                <p><strong>角色：</strong>硬件与交付</p>
+                <p><strong>长期能力：</strong>硬件研发、系统打样、Agent 接入、量产设计推进与工程团队搭建。</p>
+                <p><strong>相关背景：</strong>前出海宠物硬件品牌 CTO，擅长把原型推进到量产级工程体系。</p>
+              </div>
+            </article>
+            <article class="card team-card reveal">
+              <div class="asset-slot team-photo" data-asset-src="./assets-v2/team-wenlong.jpg" data-asset-type="image">
+                <img alt="文龙头像">
+                <div class="asset-placeholder">
+                  <span class="asset-kicker">待替换素材</span>
+                  <strong class="asset-filename">team-wenlong.jpg</strong>
+                  <span class="asset-hint">建议 1:1 头像，干净背景。</span>
+                </div>
+              </div>
+              <div>
+                <h3>文龙</h3>
+                <p><strong>角色：</strong>产品与渠道</p>
+                <p><strong>长期能力：</strong>软硬件产品定义、品牌销售、B 端合作、渠道与外部拓展。</p>
+                <p><strong>相关背景：</strong>映壳品牌创始人，AI 落地社主理人，具备软硬件产品经验，也能推动销售和渠道拓展。</p>
+              </div>
+            </article>
+            <article class="card team-card reveal">
+              <div class="asset-slot team-photo" data-asset-src="./assets-v2/team-dolores.jpg" data-asset-type="image">
+                <img alt="多乐 Dolores 头像">
+                <div class="asset-placeholder">
+                  <span class="asset-kicker">待替换素材</span>
+                  <strong class="asset-filename">team-dolores.jpg</strong>
+                  <span class="asset-hint">建议 1:1 头像，干净背景。</span>
+                </div>
+              </div>
+              <div>
+                <h3>多乐 Dolores</h3>
+                <p><strong>角色：</strong>用户与增长</p>
+                <p><strong>长期能力：</strong>国内外用户研究、社区运营、内容传播、融资材料与外部沟通。</p>
+                <p><strong>相关背景：</strong>前阿里（Lazada）东南亚电商平台 / SHEIN 平台业务产品经理、产品运营。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>14 / 15</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================================
+         Slide 15: Raise
+         =========================================== -->
+    <section class="slide dark" data-title="融资与下一步">
+      <div class="slide-shell">
+        <div class="slide-head">
+          <span>融资</span>
+          <span>金额与结果</span>
+        </div>
+        <div class="slide-body">
+          <div class="hero-statement reveal">
+            <div class="eyebrow">融资方案</div>
+            <h2 class="title">我们这轮计划融资约 US$1.2M（约人民币 800 万），用 18 个月把第一款产品推到可交付。</h2>
+            <p class="subtitle">这笔资金将主要用于完成工程化、首批履约、国内成交、海外预售和下一形态判断，把第一入口真正做实。</p>
+          </div>
+          <div class="grid-3 reveal">
+            <article class="card">
+              <h3>融资规模</h3>
+              <ul class="bullet-list">
+                <li>计划融资约 US$1.2M。</li>
+                <li>对应约人民币 800 万。</li>
+                <li>当前草拟口径，后续可按真实参数调整。</li>
+                <li>预计覆盖 18 个月关键验证周期。</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>资金投向</h3>
+              <ul class="bullet-list">
+                <li>35%：首版产品工程化与硬件研发。</li>
+                <li>25%：打样、供应链、小批量生产与质量控制。</li>
+                <li>15%：首批交付、售后与用户运营。</li>
+                <li>15%：产品接入与体验打磨；10%：团队运营与缓冲资金。</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>这轮完成后的结果</h3>
+              <ul class="bullet-list">
+                <li>可稳定交付的首版产品，而不只是单次可演示样机。</li>
+                <li>国内成交、海外预售和首批履约的第一条闭环。</li>
+                <li>一批真实使用、复购和推荐样本。</li>
+                <li>明确第一阶段最有效的渠道与下一形态判断。</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+        <div class="slide-foot">
+          <span></span>
+          <span>15 / 15</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* ===========================================
+       DATA FOR THEME BARS
+       =========================================== */
+    const themeData = [
+      {
+        theme: "手机替代 / 竞品对照",
+        percent: 26.1,
+        color: "#d6613c",
+        subthemes: ["为什么不是手机应用", "PLAUD / 同类产品对比", "已有替代方案是否更方便"]
+      },
+      {
+        theme: "信息不足 / 功能建议",
+        percent: 19.6,
+        color: "#8f6fd6",
+        subthemes: ["稳定性与安全性", "功能还缺什么", "是否能放心长期用"]
+      },
+      {
+        theme: "价格与购买",
+        percent: 17.4,
+        color: "#4c88c7",
+        subthemes: ["500 元以内接受度", "是否含流量 / 服务", "什么时候能买"]
+      },
+      {
+        theme: "产品形态与交互",
+        percent: 17.4,
+        color: "#b98d4a",
+        subthemes: ["外形是否成立", "屏幕值不值", "磁吸与交互是否自然"]
+      },
+      {
+        theme: "工作流兼容",
+        percent: 13.0,
+        color: "#7fb59b",
+        subthemes: ["飞书 / 钉钉 / 知识库", "能否接进现有 Agent", "录完能否直接生成结构化结果"]
+      },
+      {
+        theme: "合作 / 渠道 / 供应链",
+        percent: 6.5,
+        color: "#90a6b5",
+        subthemes: ["少数派等合作线索", "企业试点可能性", "ODM / 供应链资源"]
+      }
+    ];
+
+    const bars = document.getElementById("themeBars");
+    themeData.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "bar-card";
+      card.innerHTML = `
+        <div class="bar-head">
+          <strong>${item.theme}</strong>
+          <span>${item.percent.toFixed(1)}%</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${item.percent}%; background:${item.color};"></div>
+        </div>
+        <div class="subtheme-list">
+          ${item.subthemes.map((tag) => `<span class="subtheme">${tag}</span>`).join("")}
+        </div>
+      `;
+      bars.appendChild(card);
+    });
+
+    function initAssetSlots() {
+      const slots = [...document.querySelectorAll(".asset-slot")];
+
+      fetch("./assets-v2/")
+        .then((response) => response.ok ? response.text() : "")
+        .then((html) => {
+          const files = [...html.matchAll(/href="([^"]+)"/g)]
+            .map((match) => decodeURIComponent(match[1]).replace(/\/$/, ""));
+          const fileSet = new Set(files);
+
+          slots.forEach((slot) => {
+            const type = slot.dataset.assetType || "image";
+            const src = slot.dataset.assetSrc;
+            if (!src) return;
+
+            const filename = src.split("/").pop();
+            if (!fileSet.has(filename)) return;
+
+            if (type === "video") {
+              const video = slot.querySelector("video");
+              if (!video) return;
+              video.src = src;
+              video.addEventListener("loadeddata", () => {
+                slot.classList.add("loaded");
+                video.play().catch(() => {});
+              }, { once: true });
+              return;
+            }
+
+            const img = slot.querySelector("img");
+            if (!img) return;
+            img.addEventListener("load", () => {
+              slot.classList.add("loaded");
+            }, { once: true });
+            img.src = src;
+          });
+        })
+        .catch(() => {});
+    }
+
+    initAssetSlots();
+
+    /* ===========================================
+       SLIDE PRESENTATION CONTROLLER
+       =========================================== */
+    class SlidePresentation {
+      constructor() {
+        this.slides = [...document.querySelectorAll(".slide")];
+        this.currentSlide = 0;
+        this.isAnimating = false;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
+        this.progressFill = document.getElementById("progressFill");
+        this.navDots = document.getElementById("navDots");
+        this.prevBtn = document.getElementById("prevBtn");
+        this.nextBtn = document.getElementById("nextBtn");
+
+        this.setupNavDots();
+        this.setupKeyboardNav();
+        this.setupTouchNav();
+        this.setupWheelNav();
+        this.setupButtons();
+        this.showSlide(this.getInitialSlideIndex(), false);
+      }
+
+      getInitialSlideIndex() {
+        const params = new URLSearchParams(window.location.search);
+        const slideParam = params.get("slide") || window.location.hash.replace("#", "");
+        const parsed = Number.parseInt(slideParam, 10);
+        if (!Number.isFinite(parsed)) return 0;
+        return Math.min(Math.max(parsed - 1, 0), this.slides.length - 1);
+      }
+
+      setupNavDots() {
+        this.slides.forEach((slide, index) => {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot";
+          dot.type = "button";
+          dot.setAttribute("aria-label", `Go to slide ${index + 1}: ${slide.dataset.title || ""}`);
+          dot.addEventListener("click", () => this.showSlide(index));
+          this.navDots.appendChild(dot);
+        });
+      }
+
+      setupKeyboardNav() {
+        document.addEventListener("keydown", (event) => {
+          if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+            event.preventDefault();
+            this.next();
+          }
+          if (["ArrowLeft", "PageUp"].includes(event.key)) {
+            event.preventDefault();
+            this.prev();
+          }
+          if (event.key === "Home") {
+            this.showSlide(0);
+          }
+          if (event.key === "End") {
+            this.showSlide(this.slides.length - 1);
+          }
+        });
+      }
+
+      setupTouchNav() {
+        document.addEventListener("touchstart", (event) => {
+          this.touchStartX = event.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener("touchend", (event) => {
+          this.touchEndX = event.changedTouches[0].screenX;
+          const delta = this.touchEndX - this.touchStartX;
+          if (Math.abs(delta) < 48) return;
+          if (delta < 0) this.next();
+          if (delta > 0) this.prev();
+        }, { passive: true });
+      }
+
+      setupWheelNav() {
+        let wheelTimeout = null;
+        window.addEventListener("wheel", (event) => {
+          if (this.isAnimating) return;
+          clearTimeout(wheelTimeout);
+          wheelTimeout = setTimeout(() => {
+            if (event.deltaY > 25) this.next();
+            if (event.deltaY < -25) this.prev();
+          }, 30);
+        }, { passive: true });
+      }
+
+      setupButtons() {
+        this.prevBtn.addEventListener("click", () => this.prev());
+        this.nextBtn.addEventListener("click", () => this.next());
+      }
+
+      showSlide(index, animate = true) {
+        if (index < 0 || index >= this.slides.length || index === this.currentSlide && animate) return;
+        this.isAnimating = true;
+
+        this.slides.forEach((slide, slideIndex) => {
+          slide.classList.remove("active", "visible");
+          if (slideIndex === index) {
+            slide.classList.add("active");
+            requestAnimationFrame(() => slide.classList.add("visible"));
+          }
+        });
+
+        [...this.navDots.children].forEach((dot, dotIndex) => {
+          dot.classList.toggle("active", dotIndex === index);
+        });
+
+        const progress = ((index + 1) / this.slides.length) * 100;
+        this.progressFill.style.width = `${progress}%`;
+        this.currentSlide = index;
+
+        setTimeout(() => {
+          this.isAnimating = false;
+        }, animate ? 550 : 0);
+      }
+
+      next() {
+        this.showSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+      }
+
+      prev() {
+        this.showSlide(Math.max(this.currentSlide - 1, 0));
+      }
+    }
+
+    window.deckController = new SlidePresentation();
+  </script>
+</body>
+</html>
