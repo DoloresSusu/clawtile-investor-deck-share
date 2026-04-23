@@ -2478,42 +2478,35 @@
 
     function initAssetSlots() {
       const slots = [...document.querySelectorAll(".asset-slot")];
+      slots.forEach((slot) => {
+        const type = slot.dataset.assetType || "image";
+        const src = slot.dataset.assetSrc;
+        if (!src) return;
 
-      fetch("./assets-v2/")
-        .then((response) => response.ok ? response.text() : "")
-        .then((html) => {
-          const files = [...html.matchAll(/href="([^"]+)"/g)]
-            .map((match) => decodeURIComponent(match[1]).replace(/\/$/, ""));
-          const fileSet = new Set(files);
+        if (type === "video") {
+          const video = slot.querySelector("video");
+          if (!video) return;
+          video.addEventListener("loadeddata", () => {
+            slot.classList.add("loaded");
+            video.play().catch(() => {});
+          }, { once: true });
+          video.addEventListener("error", () => {
+            slot.classList.remove("loaded");
+          }, { once: true });
+          video.src = src;
+          return;
+        }
 
-          slots.forEach((slot) => {
-            const type = slot.dataset.assetType || "image";
-            const src = slot.dataset.assetSrc;
-            if (!src) return;
-
-            const filename = src.split("/").pop();
-            if (!fileSet.has(filename)) return;
-
-            if (type === "video") {
-              const video = slot.querySelector("video");
-              if (!video) return;
-              video.src = src;
-              video.addEventListener("loadeddata", () => {
-                slot.classList.add("loaded");
-                video.play().catch(() => {});
-              }, { once: true });
-              return;
-            }
-
-            const img = slot.querySelector("img");
-            if (!img) return;
-            img.addEventListener("load", () => {
-              slot.classList.add("loaded");
-            }, { once: true });
-            img.src = src;
-          });
-        })
-        .catch(() => {});
+        const img = slot.querySelector("img");
+        if (!img) return;
+        img.addEventListener("load", () => {
+          slot.classList.add("loaded");
+        }, { once: true });
+        img.addEventListener("error", () => {
+          slot.classList.remove("loaded");
+        }, { once: true });
+        img.src = src;
+      });
     }
 
     initAssetSlots();
