@@ -9,5 +9,5 @@
 
 ## Notes
 
-- 当前版本基于 `clawtile-investor-deck-v6-financial-dual-market.html`
+- 当前版本基于 `clawtile-investor-deck-v7-financial-dual-market.html`
 - 若要继续更新 deck，请直接替换 `index.html`
